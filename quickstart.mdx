@@ -1,80 +1,195 @@
 ---
-title: "Quickstart"
-description: "Start building awesome documentation in minutes"
+title: Quick start
+description: Create your first ModernSlider in minutes with this step-by-step guide
 ---
 
-## Get started in three steps
+# Quick start
 
-Get your documentation site running locally and make your first customization.
+This guide will walk you through creating your first ModernSlider. We'll build a brightness control slider similar to the one in macOS Control Center.
 
-### Step 1: Set up your local environment
+## Basic implementation
 
-<AccordionGroup>
-  <Accordion icon="copy" title="Clone your docs locally">
-    During the onboarding process, you created a GitHub repository with your docs content if you didn't already have one. You can find a link to this repository in your [dashboard](https://dashboard.mintlify.com).
+<Steps>
+  <Step title="Import ModernSlider">
+    First, import the ModernSlider library in your SwiftUI view file:
     
-    To clone the repository locally so that you can make and preview changes to your docs, follow the [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) guide in the GitHub docs.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Start the preview server">
-    1. Install the Mintlify CLI: `npm i -g mint`
-    2. Navigate to your docs directory and run: `mint dev`
-    3. Open `http://localhost:3000` to see your docs live!
+    ```swift
+    import SwiftUI
+    import ModernSlider
+    ```
+  </Step>
+  
+  <Step title="Create a state variable">
+    Add a `@State` variable to hold the slider's value:
     
-    <Tip>Your preview updates automatically as you edit files.</Tip>
-  </Accordion>
-</AccordionGroup>
-
-### Step 2: Deploy your changes
-
-<AccordionGroup>
-  <Accordion icon="github" title="Install our GitHub app">
-    Install the Mintlify GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app).
+    ```swift
+    @State private var brightness: Double = 20.0
+    ```
+  </Step>
+  
+  <Step title="Add the ModernSlider to your view">
+    Use ModernSlider in your view's body with the minimum required parameters:
     
-    Our GitHub app automatically deploys your changes to your docs site, so you don't need to manage deployments yourself.
-</Accordion>
-<Accordion icon="palette" title="Update your site name and colors">
-    For a first change, let's update the name and colors of your docs site.
+    ```swift
+    var body: some View {
+        ModernSlider(
+            "Brightness",
+            systemImage: "sun.max.fill",
+            value: $brightness
+        )
+    }
+    ```
+  </Step>
+</Steps>
 
-    1. Open `docs.json` in your editor.
-    2. Change the `"name"` field to your project name.
-    3. Update the `"colors"` to match your brand.
-    4. Save and see your changes instantly at `http://localhost:3000`.
+## Complete example
 
-    <Tip>Try changing the primary color to see an immediate difference!</Tip>
-  </Accordion>
-</AccordionGroup>
+Here's a complete working example showing a brightness slider with value change callbacks:
 
-### Step 3: Go live
+```swift ContentView.swift
+import SwiftUI
+import ModernSlider
 
-<Accordion icon="rocket" title="Publish your docs">
-  1. Commit and push your changes.
-  2. Your docs will update and be live in moments!
-</Accordion>
+struct ContentView: View {
+    @State private var brightness: Double = 20.0
+
+    var body: some View {
+        VStack(spacing: 8) {
+            ModernSlider(
+                "Brightness",
+                systemImage: "sun.max.fill",
+                sliderWidth: 250,
+                sliderHeight: 25,
+                value: $brightness,
+                onChange: { newValue in
+                    print("Brightness onChange: \(newValue)")
+                }
+            )
+            
+            Text("Brightness: \(Int(brightness))")
+                .font(.subheadline)
+                .foregroundColor(.gray)
+        }
+    }
+}
+```
+
+## Key parameters
+
+ModernSlider offers several customization options:
+
+### Required parameters
+
+- `systemImage`: SF Symbol name for the slider thumb icon (e.g., `"sun.max.fill"`)
+- `value`: A binding to a `Double` that stores the current slider value
+
+### Optional parameters
+
+- `title`: Optional label displayed above the slider (e.g., `"Brightness"`)
+- `sliderWidth`: Width of the slider track (default: `250`)
+- `sliderHeight`: Height of the slider track and thumb (default: `25`)
+- `sliderColor`: Color of the slider fill and thumb (default: `.white`)
+- `range`: Value range as `ClosedRange<Double>` (default: `0...100`)
+- `onChange`: Closure called when the slider value changes
+- `onChangeEnd`: Closure called when dragging ends
+
+## Advanced examples
+
+### Custom color and range
+
+Create a temperature slider with a custom color and range:
+
+```swift
+@State private var temperature: Double = 60.0
+
+ModernSlider(
+    "Temperature",
+    systemImage: "thermometer",
+    sliderWidth: 300,
+    sliderHeight: 35,
+    sliderColor: .blue,
+    value: $temperature,
+    in: -40...120,
+    onChangeEnd: { newValue in
+        print("Temperature onChangeEnd: \(newValue)")
+    }
+)
+```
+
+### Volume control
+
+Create a volume slider with green color:
+
+```swift
+@State private var volume: Double = 40.0
+
+ModernSlider(
+    "Volume",
+    systemImage: "speaker.wave.1.fill",
+    sliderWidth: 275,
+    sliderHeight: 25,
+    sliderColor: .green,
+    value: $volume
+)
+```
+
+### Slider without title
+
+You can omit the title to create a more compact slider:
+
+```swift
+@State private var sliderValue: Double = 80.0
+
+ModernSlider(
+    systemImage: "circle",
+    sliderWidth: 325,
+    sliderHeight: 30,
+    value: $sliderValue
+)
+```
+
+<Note>
+  When you omit the title, ModernSlider automatically removes the background material and shadow for a cleaner look.
+</Note>
+
+## Callbacks explained
+
+### onChange callback
+
+The `onChange` callback is triggered continuously as the user drags the slider:
+
+```swift
+ModernSlider(
+    "Brightness",
+    systemImage: "sun.max.fill",
+    value: $brightness,
+    onChange: { newValue in
+        // Called continuously while dragging
+        print("Current value: \(newValue)")
+    }
+)
+```
+
+### onChangeEnd callback
+
+The `onChangeEnd` callback is triggered only when the user finishes dragging:
+
+```swift
+ModernSlider(
+    "Brightness",
+    systemImage: "sun.max.fill",
+    value: $brightness,
+    onChangeEnd: { finalValue in
+        // Called once when dragging ends
+        print("Final value: \(finalValue)")
+    }
+)
+```
+
+<Info>
+  Use `onChange` for real-time updates (like adjusting brightness) and `onChangeEnd` for actions that should only happen once (like saving to UserDefaults).
+</Info>
 
 ## Next steps
 
-Now that you have your docs running, explore these key features:
-
-<CardGroup cols={2}>
-
-<Card title="Write Content" icon="pen-to-square" href="/essentials/markdown">
-  Learn MDX syntax and start writing your documentation.
-</Card>
-
-<Card title="Customize style" icon="palette" href="/essentials/settings">
-  Make your docs match your brand perfectly.
-</Card>
-
-<Card title="Add code examples" icon="square-code" href="/essentials/code">
-  Include syntax-highlighted code blocks.
-</Card>
-
-<Card title="API documentation" icon="code" href="/api-reference/introduction">
-  Auto-generate API docs from OpenAPI specs.
-</Card>
-
-</CardGroup>
-
-<Note>
-  **Need help?** See our [full documentation](https://mintlify.com/docs) or join our [community](https://mintlify.com/community).
-</Note>
+You've successfully created your first ModernSlider! Explore more customization options by adjusting colors, sizes, and ranges to match your app's design.

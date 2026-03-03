@@ -1,0 +1,76 @@
+---
+title: Volume slider
+description: Create a volume slider with custom color styling
+---
+
+This example shows how to customize the slider's color to match your app's design. The volume slider uses a green color to differentiate it from other controls.
+
+## Example
+
+```swift
+import SwiftUI
+import ModernSlider
+
+struct ContentView: View {
+    @State private var volume: Double = 40.0
+
+    var body: some View {
+        VStack(spacing: 8) {
+            ModernSlider(
+                "Volume",
+                systemImage: "speaker.wave.1.fill",
+                sliderWidth: 275,
+                sliderHeight: 25,
+                sliderColor: .green,
+                value: $volume
+            )
+            
+            Text("Volume: \(Int(volume))")
+                .font(.subheadline)
+                .foregroundColor(.gray)
+        }
+    }
+}
+```
+
+## Configuration breakdown
+
+### Custom color
+- **sliderColor: .green**: Overrides the default accent color with green
+- This helps create visual distinction between different slider types in your interface
+
+### Title and icon
+- **"Volume"**: The label displayed on the slider
+- **systemImage: "speaker.wave.1.fill"**: SF Symbol icon for volume control
+
+### Dimensions
+- **sliderWidth: 275**: Slightly wider than the brightness slider at 275 points
+- **sliderHeight: 25**: Standard height of 25 points
+
+### Value binding
+- **value: $volume**: Two-way binding starting at 40.0
+- Uses the default range of 0...100
+
+## Custom color options
+
+You can use any SwiftUI Color for the sliderColor parameter:
+
+```swift
+// System colors
+sliderColor: .green
+sliderColor: .blue
+sliderColor: .red
+sliderColor: .orange
+sliderColor: .purple
+
+// Custom colors
+sliderColor: Color(red: 0.2, green: 0.5, blue: 0.8)
+sliderColor: Color(hex: "#FF5733")
+
+// Asset catalog colors
+sliderColor: Color("AccentColor")
+```
+
+<Tip>
+Use consistent colors across your app's sliders to create a cohesive user interface. For example, use green for volume controls and orange for brightness controls.
+</Tip>

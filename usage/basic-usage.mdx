@@ -1,0 +1,143 @@
+---
+title: Basic usage
+description: Learn how to import and use ModernSlider with simple examples
+---
+
+## Importing ModernSlider
+
+To use ModernSlider in your SwiftUI project, import it at the top of your file:
+
+```swift
+import SwiftUI
+import ModernSlider
+```
+
+## Minimum required parameters
+
+The simplest ModernSlider requires only two parameters:
+
+- `systemImage`: A SF Symbol name for the slider thumb icon
+- `value`: A binding to a `Double` value
+
+```swift
+@State private var sliderValue: Double = 50.0
+
+var body: some View {
+    ModernSlider(
+        systemImage: "circle",
+        value: $sliderValue
+    )
+}
+```
+
+<Note>
+  By default, ModernSlider uses a range of `0...100`, white color, width of `250`, and height of `25`.
+</Note>
+
+## Binding values with @State
+
+ModernSlider uses SwiftUI's `@State` and `Binding` to manage the slider value. The binding allows ModernSlider to both read and update the value as the user interacts with it.
+
+```swift
+struct ContentView: View {
+    @State private var brightness: Double = 20.0
+
+    var body: some View {
+        VStack {
+            ModernSlider(
+                "Brightness",
+                systemImage: "sun.max.fill",
+                value: $brightness
+            )
+            
+            Text("Brightness: \(Int(brightness))")
+                .font(.subheadline)
+                .foregroundColor(.gray)
+        }
+    }
+}
+```
+
+The `$` prefix creates a binding from the `@State` property, allowing ModernSlider to update the value as the user drags the slider.
+
+## Basic examples
+
+<Tabs>
+  <Tab title="With title">
+    A slider with a descriptive title that appears above it:
+
+    ```swift
+    @State private var brightness: Double = 20.0
+
+    var body: some View {
+        ModernSlider(
+            "Brightness",
+            systemImage: "sun.max.fill",
+            value: $brightness
+        )
+    }
+    ```
+
+    <Info>
+      When you provide a title, ModernSlider automatically adds a background with material effect and shadow.
+    </Info>
+  </Tab>
+
+  <Tab title="Without title">
+    A slider without a title for a cleaner, minimal appearance:
+
+    ```swift
+    @State private var noTitleSliderValue: Double = 80.0
+
+    var body: some View {
+        ModernSlider(
+            systemImage: "circle",
+            value: $noTitleSliderValue
+        )
+    }
+    ```
+  </Tab>
+
+  <Tab title="Custom range">
+    Specify a custom range for values outside the default `0...100`:
+
+    ```swift
+    @State private var temperature: Double = 60.0
+
+    var body: some View {
+        ModernSlider(
+            "Temperature",
+            systemImage: "thermometer",
+            value: $temperature,
+            in: -40...120
+        )
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Displaying the current value
+
+To show the current slider value to users, simply reference the bound state property:
+
+```swift
+@State private var volume: Double = 40.0
+
+var body: some View {
+    VStack {
+        ModernSlider(
+            "Volume",
+            systemImage: "speaker.wave.1.fill",
+            value: $volume
+        )
+        
+        Text("Volume: \(Int(volume))")
+            .font(.subheadline)
+            .foregroundColor(.gray)
+    }
+}
+```
+
+<Tip>
+  Use `Int(value)` to display whole numbers, or format with `String(format: "%.1f", value)` for decimal precision.
+</Tip>

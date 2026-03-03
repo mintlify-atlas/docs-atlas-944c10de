@@ -1,0 +1,69 @@
+---
+title: Introduction
+description: A customizable SwiftUI slider component inspired by macOS Control Center sliders
+---
+
+# ModernSlider
+
+ModernSlider is a customizable slider component for SwiftUI that lets you select a value from a linear range of values. Inspired by the elegant slider design in macOS Control Center, it brings a modern, polished look to your SwiftUI applications.
+
+## Key features
+
+<CardGroup cols={2}>
+  <Card title="Customizable appearance" icon="palette">
+    Customize range, width, height, system image, and color to match your app's design
+  </Card>
+  <Card title="Smooth animations" icon="wand-magic-sparkles">
+    Built-in smooth animations with SwiftUI gestures for a fluid user experience
+  </Card>
+  <Card title="Light and dark mode" icon="circle-half-stroke">
+    Automatic color scheme adaptation with custom track and thumb colors for both modes
+  </Card>
+  <Card title="Value callbacks" icon="code">
+    Real-time onChange callbacks and onChangeEnd callbacks when dragging completes
+  </Card>
+</CardGroup>
+
+## Quick example
+
+Here's a simple brightness slider using ModernSlider:
+
+```swift
+import SwiftUI
+import ModernSlider
+
+struct ContentView: View {
+    @State private var brightness = 50.0
+
+    var body: some View {
+        ModernSlider(
+            "Brightness", 
+            systemImage: "sun.max.fill", 
+            value: $brightness, 
+            in: 5...100, 
+            onChange: { newValue in
+                print("Brightness changed to \(newValue)")
+            }
+        )
+    }
+}
+```
+
+## Platform support
+
+ModernSlider supports the following platforms:
+
+- iOS 15.0+
+- macOS 13.0+
+- Mac Catalyst 15.0+
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Installation" icon="download" href="/installation">
+    Add ModernSlider to your project using Swift Package Manager
+  </Card>
+  <Card title="Quick start" icon="rocket" href="/quickstart">
+    Learn how to implement your first ModernSlider in minutes
+  </Card>
+</CardGroup>

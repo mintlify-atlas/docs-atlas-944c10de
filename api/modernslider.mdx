@@ -1,0 +1,58 @@
+---
+title: ModernSlider
+description: A customizable slider component for selecting a value from a linear range of values
+---
+
+`ModernSlider` is a SwiftUI view that provides a modern, customizable slider interface for selecting numeric values within a specified range.
+
+## Overview
+
+ModernSlider offers a highly customizable alternative to SwiftUI's native slider with features including:
+
+- Customizable range, width, height, and color
+- System image display on the slider thumb
+- Optional title with background styling
+- Callbacks for value changes and drag completion
+
+## Initializer
+
+```swift
+public init(
+    _ title: String? = nil,
+    systemImage: String,
+    sliderWidth: CGFloat = 250,
+    sliderHeight: CGFloat = 25,
+    sliderColor: Color = .white,
+    value: Binding<Double>,
+    in range: ClosedRange<Double> = 0...100,
+    onChange: ((Double) -> Void)? = nil,
+    onChangeEnd: ((Double) -> Void)? = nil
+)
+```
+
+## Basic example
+
+```swift
+import SwiftUI
+import ModernSlider
+
+struct ContentView: View {
+    @State private var brightness = 50.0
+    
+    var body: some View {
+        ModernSlider(
+            "Brightness",
+            systemImage: "sun.max.fill",
+            value: $brightness,
+            in: 5...100,
+            onChange: { newValue in
+                print("Brightness changed to \(newValue)")
+            }
+        )
+    }
+}
+```
+
+## Parameters
+
+For detailed information about all parameters, see the [Parameters reference](/api/parameters).

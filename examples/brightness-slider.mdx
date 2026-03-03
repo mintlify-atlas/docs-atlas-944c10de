@@ -1,0 +1,61 @@
+---
+title: Brightness slider
+description: Create a basic brightness slider with default styling
+---
+
+This example demonstrates a basic brightness slider using ModernSlider with default styling. It's perfect for controlling brightness levels in your app.
+
+## Example
+
+```swift
+import SwiftUI
+import ModernSlider
+
+struct ContentView: View {
+    @State private var brightness: Double = 20.0
+
+    var body: some View {
+        VStack(spacing: 8) {
+            ModernSlider(
+                "Brightness",
+                systemImage: "sun.max.fill",
+                sliderWidth: 250,
+                sliderHeight: 25,
+                value: $brightness,
+                onChange: { newValue in
+                    print("Brightness onChange: \(newValue)")
+                })
+            
+            Text("Brightness: \(Int(brightness))")
+                .font(.subheadline)
+                .foregroundColor(.gray)
+        }
+    }
+}
+```
+
+## Configuration breakdown
+
+### Title and icon
+- **"Brightness"**: The label displayed on the slider
+- **systemImage: "sun.max.fill"**: SF Symbol icon representing the brightness control
+
+### Dimensions
+- **sliderWidth: 250**: Sets the slider to 250 points wide
+- **sliderHeight: 25**: Sets the slider to 25 points tall
+
+### Value binding
+- **value: $brightness**: Two-way binding to track the slider value
+- Initial value is set to 20.0
+
+### Callbacks
+- **onChange**: Called continuously while dragging the slider, perfect for real-time updates
+- In this example, it prints each value change for debugging
+
+<Note>
+The onChange callback is useful when you need to respond immediately to slider changes, such as updating brightness in real-time as the user drags.
+</Note>
+
+## Default behavior
+
+Without specifying a range, the slider defaults to **0...100**. The slider also uses the system's default accent color when no custom color is provided.

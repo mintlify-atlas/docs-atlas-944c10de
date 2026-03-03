@@ -1,0 +1,226 @@
+---
+title: Callbacks
+description: Handle value changes and user interactions with onChange and onChangeEnd callbacks
+---
+
+## onChange callback
+
+The `onChange` callback is triggered continuously as the user drags the slider. It receives the new value as a parameter.
+
+```swift
+@State private var brightness: Double = 20.0
+
+var body: some View {
+    ModernSlider(
+        "Brightness",
+        systemImage: "sun.max.fill",
+        value: $brightness,
+        onChange: { newValue in
+            print("Brightness onChange: \(newValue)")
+        }
+    )
+}
+```
+
+<Note>
+  `onChange` is called every time the slider value updates during dragging, which can be very frequent.
+</Note>
+
+### When to use onChange
+
+Use `onChange` when you need to:
+
+- Provide immediate visual feedback as the user drags
+- Update UI elements in real-time
+- Preview changes before they're finalized
+- Log or track slider movements for analytics
+
+### Real-time UI updates
+
+```swift
+struct ContentView: View {
+    @State private var brightness: Double = 20.0
+
+    var body: some View {
+        VStack {
+            ModernSlider(
+                "Brightness",
+                systemImage: "sun.max.fill",
+                sliderWidth: 250,
+                sliderHeight: 25,
+                value: $brightness,
+                onChange: { newValue in
+                    print("Brightness onChange: \(newValue)")
+                }
+            )
+            
+            Text("Brightness: \(Int(brightness))")
+                .font(.subheadline)
+                .foregroundColor(.gray)
+        }
+    }
+}
+```
+
+In this example from the demo app, the text updates continuously as the user drags the slider.
+
+## onChangeEnd callback
+
+The `onChangeEnd` callback is triggered only once when the user finishes dragging and releases the slider. It receives the final value as a parameter.
+
+```swift
+@State private var temperature: Double = 60.0
+
+var body: some View {
+    ModernSlider(
+        "Temperature",
+        systemImage: "thermometer",
+        value: $temperature,
+        in: -40...120,
+        onChangeEnd: { newValue in
+            print("Temperature onChangeEnd: \(newValue)")
+        }
+    )
+}
+```
+
+<Tip>
+  `onChangeEnd` is ideal for expensive operations that should only run once after the user commits to a value.
+</Tip>
+
+### When to use onChangeEnd
+
+Use `onChangeEnd` when you need to:
+
+- Save the final value to persistent storage
+- Make network requests with the updated value
+- Perform expensive calculations or operations
+- Commit changes to a database or user preferences
+- Trigger actions that should only happen once
+
+### Example: Saving settings
+
+```swift
+struct ContentView: View {
+    @State private var temperature: Double = 60.0
+
+    var body: some View {
+        VStack {
+            ModernSlider(
+                "Temperature",
+                systemImage: "thermometer",
+                sliderWidth: 300,
+                sliderHeight: 35,
+                sliderColor: .blue,
+                value: $temperature,
+                in: -40...120,
+                onChangeEnd: { newValue in
+                    print("Temperature onChangeEnd: \(newValue)")
+                    // Save to UserDefaults or trigger API call
+                }
+            )
+            
+            Text("Temperature: \(Int(temperature))")
+                .font(.subheadline)
+                .foregroundColor(.gray)
+        }
+    }
+}
+```
+
+This example from the demo app only logs the temperature when dragging ends, making it suitable for save operations.
+
+## Using both callbacks
+
+You can use both callbacks together for different purposes:
+
+```swift
+@State private var volume: Double = 50.0
+@State private var isSaving: Bool = false
+
+var body: some View {
+    VStack {
+        ModernSlider(
+            "Volume",
+            systemImage: "speaker.wave.1.fill",
+            sliderColor: .green,
+            value: $volume,
+            onChange: { newValue in
+                // Real-time preview
+                print("Volume preview: \(newValue)")
+            },
+            onChangeEnd: { newValue in
+                // Save final value
+                isSaving = true
+                saveVolumePreference(newValue)
+                isSaving = false
+            }
+        )
+        
+        if isSaving {
+            ProgressView("Saving...")
+        }
+    }
+}
+
+func saveVolumePreference(_ volume: Double) {
+    // Save to UserDefaults, database, or API
+    UserDefaults.standard.set(volume, forKey: "volume")
+}
+```
+
+<Info>
+  The `onChange` callback provides live updates while dragging, and `onChangeEnd` confirms the final value when the user releases the slider.
+</Info>
+
+## Callback parameters
+
+Both callbacks receive a `Double` value representing the current slider position within the specified range:
+
+<Tabs>
+  <Tab title="Default range">
+    ```swift
+    ModernSlider(
+        "Brightness",
+        systemImage: "sun.max.fill",
+        value: $brightness,
+        onChange: { newValue in
+            // newValue is between 0 and 100 (default range)
+            print("Value: \(newValue)")
+        }
+    )
+    ```
+  </Tab>
+
+  <Tab title="Custom range">
+    ```swift
+    ModernSlider(
+        "Temperature",
+        systemImage: "thermometer",
+        value: $temperature,
+        in: -40...120,
+        onChangeEnd: { newValue in
+            // newValue is between -40 and 120
+            print("Temperature: \(newValue)")
+        }
+    )
+    ```
+  </Tab>
+</Tabs>
+
+## Optional callbacks
+
+Both callbacks are optional. You can use ModernSlider with just the value binding if you don't need to react to changes:
+
+```swift
+@State private var noTitleSliderValue: Double = 80.0
+
+var body: some View {
+    ModernSlider(
+        systemImage: "circle",
+        value: $noTitleSliderValue
+    )
+}
+```
+
+The binding alone is sufficient for displaying and updating the value in your UI.

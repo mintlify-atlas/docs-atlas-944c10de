@@ -1,0 +1,97 @@
+---
+title: Installation
+description: Add ModernSlider to your SwiftUI project using Swift Package Manager
+---
+
+# Installation
+
+ModernSlider is distributed via Swift Package Manager (SPM), making it easy to add to your Xcode project.
+
+## Requirements
+
+Before installing, ensure your project meets these minimum platform requirements:
+
+- iOS 15.0 or later
+- macOS 13.0 or later
+- Mac Catalyst 15.0 or later
+- Swift 5.10 or later
+
+## Swift Package Manager
+
+<Info>
+  Swift Package Manager is Apple's official tool for managing Swift code distribution. It's integrated directly into Xcode.
+</Info>
+
+### Method 1: Xcode UI
+
+<Steps>
+  <Step title="Open your project in Xcode">
+    Launch Xcode and open your project or workspace.
+  </Step>
+  
+  <Step title="Add package dependency">
+    In Xcode, go to **File** > **Add Package Dependencies...**
+  </Step>
+  
+  <Step title="Enter the repository URL">
+    In the search bar, enter the ModernSlider repository URL:
+    ```
+    https://github.com/arjun-dureja/modernslider
+    ```
+  </Step>
+  
+  <Step title="Select version">
+    Choose the version rule (recommended: **Up to Next Major Version**) and click **Add Package**.
+  </Step>
+  
+  <Step title="Add to target">
+    Select the target(s) where you want to use ModernSlider and click **Add Package**.
+  </Step>
+</Steps>
+
+### Method 2: Package.swift
+
+If you're building a Swift package or prefer manual configuration, add ModernSlider as a dependency in your `Package.swift` file:
+
+```swift Package.swift
+import PackageDescription
+
+let package = Package(
+    name: "YourPackage",
+    platforms: [
+        .macOS(.v13),
+        .iOS(.v15),
+        .macCatalyst(.v15)
+    ],
+    dependencies: [
+        .package(url: "https://github.com/arjun-dureja/modernslider", from: "1.0.0")
+    ],
+    targets: [
+        .target(
+            name: "YourTarget",
+            dependencies: ["ModernSlider"]
+        )
+    ]
+)
+```
+
+<Note>
+  Update the version number as needed to match the latest release.
+</Note>
+
+## Import the library
+
+Once installed, import ModernSlider in any Swift file where you want to use it:
+
+```swift
+import SwiftUI
+import ModernSlider
+```
+
+## Next steps
+
+Now that you've installed ModernSlider, you're ready to create your first slider!
+
+<Card title="Quick start" icon="rocket" href="/quickstart">
+  Learn how to implement ModernSlider in your SwiftUI views
+</Card>

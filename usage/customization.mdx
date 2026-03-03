@@ -1,0 +1,258 @@
+---
+title: Customization
+description: Customize ModernSlider appearance with colors, sizes, icons, and titles
+---
+
+## Custom colors
+
+ModernSlider allows you to customize the slider color using the `sliderColor` parameter. The color is applied to both the slider fill and the thumb.
+
+```swift
+@State private var volume: Double = 40.0
+
+var body: some View {
+    ModernSlider(
+        "Volume",
+        systemImage: "speaker.wave.1.fill",
+        sliderColor: .green,
+        value: $volume
+    )
+}
+```
+
+<Note>
+  The default color is `.white`, which adapts to light and dark mode.
+</Note>
+
+### Color examples from the demo app
+
+<Tabs>
+  <Tab title="Green">
+    ```swift
+    @State private var volume: Double = 40.0
+
+    var body: some View {
+        ModernSlider(
+            "Volume",
+            systemImage: "speaker.wave.1.fill",
+            sliderWidth: 275,
+            sliderHeight: 25,
+            sliderColor: .green,
+            value: $volume
+        )
+    }
+    ```
+  </Tab>
+
+  <Tab title="Blue">
+    ```swift
+    @State private var temperature: Double = 60.0
+
+    var body: some View {
+        ModernSlider(
+            "Temperature",
+            systemImage: "thermometer",
+            sliderWidth: 300,
+            sliderHeight: 35,
+            sliderColor: .blue,
+            value: $temperature,
+            in: -40...120
+        )
+    }
+    ```
+  </Tab>
+
+  <Tab title="Default (white)">
+    ```swift
+    @State private var brightness: Double = 20.0
+
+    var body: some View {
+        ModernSlider(
+            "Brightness",
+            systemImage: "sun.max.fill",
+            sliderWidth: 250,
+            sliderHeight: 25,
+            value: $brightness
+        )
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Custom dimensions
+
+Adjust the slider's width and height to fit your design:
+
+- `sliderWidth`: The width of the slider track (default: `250`)
+- `sliderHeight`: The height of the slider track and thumb (default: `25`)
+
+```swift
+@State private var temperature: Double = 60.0
+
+var body: some View {
+    ModernSlider(
+        "Temperature",
+        systemImage: "thermometer",
+        sliderWidth: 300,
+        sliderHeight: 35,
+        sliderColor: .blue,
+        value: $temperature,
+        in: -40...120
+    )
+}
+```
+
+<Tip>
+  The thumb size automatically scales with `sliderHeight`, and the title font size adjusts proportionally.
+</Tip>
+
+## Using system images
+
+ModernSlider uses SF Symbols for the thumb icon via the `systemImage` parameter. Choose any SF Symbol that represents your slider's purpose.
+
+### Common system images
+
+<Tabs>
+  <Tab title="Brightness">
+    ```swift
+    ModernSlider(
+        "Brightness",
+        systemImage: "sun.max.fill",
+        value: $brightness
+    )
+    ```
+  </Tab>
+
+  <Tab title="Volume">
+    ```swift
+    ModernSlider(
+        "Volume",
+        systemImage: "speaker.wave.1.fill",
+        value: $volume
+    )
+    ```
+  </Tab>
+
+  <Tab title="Temperature">
+    ```swift
+    ModernSlider(
+        "Temperature",
+        systemImage: "thermometer",
+        value: $temperature
+    )
+    ```
+  </Tab>
+
+  <Tab title="Generic">
+    ```swift
+    ModernSlider(
+        systemImage: "circle",
+        value: $value
+    )
+    ```
+  </Tab>
+</Tabs>
+
+<Info>
+  Visit [SF Symbols](https://developer.apple.com/sf-symbols/) to browse all available system images.
+</Info>
+
+## With and without titles
+
+The title parameter is optional and changes both the appearance and behavior of the slider.
+
+### With a title
+
+When you provide a title, ModernSlider displays it above the slider and adds a background with material effect:
+
+```swift
+@State private var brightness: Double = 20.0
+
+var body: some View {
+    ModernSlider(
+        "Brightness",
+        systemImage: "sun.max.fill",
+        sliderWidth: 250,
+        sliderHeight: 25,
+        value: $brightness
+    )
+}
+```
+
+The title appears in a primary color that adapts to the current color scheme, with automatic padding and a subtle shadow.
+
+### Without a title
+
+Omit the title for a minimal slider without the background effect:
+
+```swift
+@State private var noTitleSliderValue: Double = 80.0
+
+var body: some View {
+    ModernSlider(
+        systemImage: "circle",
+        sliderWidth: 325,
+        sliderHeight: 30,
+        value: $noTitleSliderValue
+    )
+}
+```
+
+<Note>
+  Without a title, ModernSlider has no background material, shadow, or padding beyond the slider itself.
+</Note>
+
+## Complete customization example
+
+Here's an example combining all customization options:
+
+```swift
+struct ContentView: View {
+    @State private var brightness: Double = 20.0
+    @State private var volume: Double = 40.0
+    @State private var temperature: Double = 60.0
+    @State private var noTitleSliderValue: Double = 80.0
+
+    var body: some View {
+        VStack(spacing: 8) {
+            // Default white slider with title
+            ModernSlider(
+                "Brightness",
+                systemImage: "sun.max.fill",
+                sliderWidth: 250,
+                sliderHeight: 25,
+                value: $brightness
+            )
+
+            // Green slider with custom width
+            ModernSlider(
+                "Volume",
+                systemImage: "speaker.wave.1.fill",
+                sliderWidth: 275,
+                sliderHeight: 25,
+                sliderColor: .green,
+                value: $volume
+            )
+
+            // Blue slider with custom range and larger size
+            ModernSlider(
+                "Temperature",
+                systemImage: "thermometer",
+                sliderWidth: 300,
+                sliderHeight: 35,
+                sliderColor: .blue,
+                value: $temperature,
+                in: -40...120
+            )
+
+            // Slider without title
+            ModernSlider(
+                systemImage: "circle",
+                sliderWidth: 325,
+                sliderHeight: 30,
+                value: $noTitleSliderValue
+            )
+        }
+    }
+}
+```

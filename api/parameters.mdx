@@ -1,0 +1,155 @@
+---
+title: Parameters
+description: Detailed reference for all ModernSlider parameters
+---
+
+This page documents all parameters available in the ModernSlider initializer.
+
+## Parameters
+
+<ParamField path="title" type="String?" default="nil">
+  An optional string to describe the data the slider represents. When provided, the title appears above the slider with a styled background container.
+  
+  ```swift
+  ModernSlider(
+      "Volume",
+      systemImage: "speaker.wave.2.fill",
+      value: $volume
+  )
+  ```
+</ParamField>
+
+<ParamField path="systemImage" type="String" required>
+  The SF Symbol name to display on the slider thumb. This parameter is required and determines the icon shown in the center of the circular thumb.
+  
+  ```swift
+  ModernSlider(
+      systemImage: "sun.max.fill",
+      value: $brightness
+  )
+  ```
+</ParamField>
+
+<ParamField path="sliderWidth" type="CGFloat" default="250">
+  The width of the slider track in points. This determines the horizontal length of the slider.
+  
+  ```swift
+  ModernSlider(
+      systemImage: "gauge.fill",
+      sliderWidth: 300,
+      value: $speed
+  )
+  ```
+</ParamField>
+
+<ParamField path="sliderHeight" type="CGFloat" default="25">
+  The height of the slider track and thumb in points. The thumb will be a circle with diameter equal to this value.
+  
+  ```swift
+  ModernSlider(
+      systemImage: "speaker.wave.2.fill",
+      sliderHeight: 30,
+      value: $volume
+  )
+  ```
+</ParamField>
+
+<ParamField path="sliderColor" type="Color" default=".white">
+  The color of the slider's fill and thumb. This color is applied to both the filled portion of the track and the circular thumb.
+  
+  ```swift
+  ModernSlider(
+      systemImage: "thermometer",
+      sliderColor: .red,
+      value: $temperature
+  )
+  ```
+</ParamField>
+
+<ParamField path="value" type="Binding<Double>" required>
+  A binding to the current value of the slider. The slider updates this binding as the user drags the thumb, and will update its position when the binding changes externally.
+  
+  ```swift
+  @State private var brightness = 50.0
+  
+  var body: some View {
+      ModernSlider(
+          systemImage: "sun.max.fill",
+          value: $brightness
+      )
+  }
+  ```
+</ParamField>
+
+<ParamField path="range" type="ClosedRange<Double>" default="0...100">
+  A closed range representing the minimum and maximum values for the slider. The slider value will be constrained to this range.
+  
+  ```swift
+  ModernSlider(
+      "Temperature",
+      systemImage: "thermometer",
+      value: $temperature,
+      in: -20...50
+  )
+  ```
+</ParamField>
+
+<ParamField path="onChange" type="((Double) -> Void)?" default="nil">
+  An optional closure that is called whenever the slider value changes during dragging. Receives the new value as a parameter.
+  
+  ```swift
+  ModernSlider(
+      systemImage: "speaker.wave.2.fill",
+      value: $volume,
+      onChange: { newValue in
+          print("Volume: \(newValue)")
+          updateAudioVolume(newValue)
+      }
+  )
+  ```
+</ParamField>
+
+<ParamField path="onChangeEnd" type="((Double) -> Void)?" default="nil">
+  An optional closure that is called when the user stops dragging the slider thumb. Receives the final value as a parameter. Useful for triggering actions only after the user finishes adjusting the slider.
+  
+  ```swift
+  ModernSlider(
+      systemImage: "slider.horizontal.3",
+      value: $setting,
+      onChangeEnd: { finalValue in
+          saveSetting(finalValue)
+      }
+  )
+  ```
+</ParamField>
+
+## Complete example
+
+Here's an example using multiple parameters:
+
+```swift
+import SwiftUI
+import ModernSlider
+
+struct ContentView: View {
+    @State private var temperature = 20.0
+    
+    var body: some View {
+        ModernSlider(
+            "Temperature",
+            systemImage: "thermometer",
+            sliderWidth: 300,
+            sliderHeight: 35,
+            sliderColor: .orange,
+            value: $temperature,
+            in: -10...40,
+            onChange: { newValue in
+                print("Temperature changing: \(newValue)°C")
+            },
+            onChangeEnd: { finalValue in
+                print("Final temperature: \(finalValue)°C")
+            }
+        )
+    }
+}
+```

@@ -1,0 +1,121 @@
+---
+title: Custom range slider
+description: Create sliders with custom value ranges for specialized controls
+---
+
+ModernSlider allows you to specify custom ranges beyond the default 0...100. This example demonstrates a temperature slider with a range of -40 to 120 degrees.
+
+## Example
+
+```swift
+import SwiftUI
+import ModernSlider
+
+struct ContentView: View {
+    @State private var temperature: Double = 60.0
+
+    var body: some View {
+        VStack(spacing: 8) {
+            ModernSlider(
+                "Temperature",
+                systemImage: "thermometer",
+                sliderWidth: 300,
+                sliderHeight: 35,
+                sliderColor: .blue,
+                value: $temperature,
+                in: -40...120,
+                onChangeEnd: { newValue in
+                    print("Temperature onChangeEnd: \(newValue)")
+                })
+            
+            Text("Temperature: \(Int(temperature))")
+                .font(.subheadline)
+                .foregroundColor(.gray)
+        }
+    }
+}
+```
+
+## Configuration breakdown
+
+### Custom range
+- **in: -40...120**: Sets the slider range from -40 to 120 degrees
+- The initial value (60.0) must fall within this range
+- Perfect for temperature controls that need negative values
+
+### Callback difference
+- **onChangeEnd**: Called only when the user finishes dragging
+- Unlike `onChange`, this fires once per interaction, not continuously
+- Ideal for expensive operations or API calls
+
+### Dimensions
+- **sliderWidth: 300**: Wider slider at 300 points
+- **sliderHeight: 35**: Taller at 35 points for easier interaction
+
+### Styling
+- **sliderColor: .blue**: Blue color to represent temperature
+
+## Range possibilities
+
+You can create sliders for any numeric range:
+
+### Temperature ranges
+```swift
+// Celsius
+in: -40...50
+
+// Fahrenheit
+in: -40...120
+
+// Kelvin
+in: 0...400
+```
+
+### Percentage ranges
+```swift
+// Default percentage
+in: 0...100
+
+// Decimal percentage
+in: 0.0...1.0
+```
+
+### Custom numeric ranges
+```swift
+// Zoom levels
+in: 1...10
+
+// Negative to positive
+in: -100...100
+
+// Large ranges
+in: 0...1000
+
+// Decimal precision
+in: 0.0...10.0
+```
+
+<Note>
+When using custom ranges, ensure your initial value falls within the specified range, or the slider will clamp it to the nearest valid value.
+</Note>
+
+## onChange vs onChangeEnd
+
+- **onChange**: Fires continuously while dragging - use for real-time UI updates
+- **onChangeEnd**: Fires once when dragging stops - use for network requests or expensive operations
+
+```swift
+// Real-time updates
+onChange: { newValue in
+    updateBrightness(newValue)
+}
+
+// Batch updates
+onChangeEnd: { finalValue in
+    saveToDatabase(finalValue)
+}
+```
+
+<Tip>
+For temperature controls or other settings that might trigger API calls, use `onChangeEnd` to avoid making excessive network requests while the user is still adjusting the slider.
+</Tip>
