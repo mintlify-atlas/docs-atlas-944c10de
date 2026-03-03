@@ -1,0 +1,54 @@
+{
+  "projectType": "sdk-library",
+  "projectName": "ModernSlider",
+  "projectDescription": "A modern and customizable SwiftUI slider component inspired by macOS Control Center sliders",
+  "theme": "palm",
+  "primaryColor": "#FF9500",
+  "lightColor": "#FFB340",
+  "darkColor": "#FF8C00",
+  "navigation": {
+    "groups": [
+      {
+        "group": "Get Started",
+        "pages": [
+          "introduction",
+          "installation",
+          "quickstart"
+        ]
+      },
+      {
+        "group": "Usage",
+        "pages": [
+          "usage/basic-usage",
+          "usage/customization",
+          "usage/callbacks"
+        ]
+      },
+      {
+        "group": "API Reference",
+        "pages": [
+          "api/modernslider",
+          "api/parameters"
+        ]
+      },
+      {
+        "group": "Examples",
+        "pages": [
+          "examples/brightness-slider",
+          "examples/volume-slider",
+          "examples/custom-range"
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Customizable range, width, height, system image, and color",
+    "Optional title with background view",
+    "Smooth sliding animation with callbacks",
+    "Full support for light and dark mode",
+    "macOS Control Center inspired design"
+  ],
+  "publicApiSurface": [
+    "ModernSlider(title:systemImage:sliderWidth:sliderHeight:sliderColor:value:in:onChange:onChangeEnd:)"
+  ]
+}
